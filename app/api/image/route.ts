@@ -73,7 +73,7 @@ const uploadNewImage = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(500).json({ error: err.message });
     }
 
-    const imageFile = files.image as formidable.File; // Adjust type based on how the file is being sent
+    const imageFile = files.image as unknown as formidable.File; // Adjust type based on how the file is being sent
     if (!imageFile) {
       return res.status(400).json({ error: "No image file found" });
     }
@@ -82,7 +82,9 @@ const uploadNewImage = async (req: NextApiRequest, res: NextApiResponse) => {
       const result = await cloudinary.uploader.upload(imageFile.filepath);
       return res.status(200).json({ success: true, url: result.secure_url });
     } catch (uploadError) {
-      return res.status(500).json({ error: uploadError.message });
+      return res.status(500).json({
+        /* error: uploadError.message */
+      });
     }
   });
 };

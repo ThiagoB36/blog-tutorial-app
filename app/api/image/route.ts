@@ -44,11 +44,11 @@ import cloudinary from "@/app/lib/cloudinary";
 export const runtime = "nodejs"; // or 'edge' depending on your preference
 
 // Disable Next.js body parsing so formidable can handle multipart form data
-export const config = {
+/* export const config = {
   api: {
     bodyParser: false,
   },
-};
+}; */
 
 // API handler function
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

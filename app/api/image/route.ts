@@ -36,63 +36,59 @@ const readAllImages: NextApiHandler = (req, res) => {};
 export default handler;
  */
 
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
+import { IncomingMessage } from "http";
 import formidable from "formidable";
 import cloudinary from "@/app/lib/cloudinary";
 
-// Set the runtime environment for Next.js 13+ (Edge or Node.js)
-export const runtime = "nodejs"; // or 'edge' depending on your preference
+// Define runtime configuration
+export const runtime = "nodejs"; // or 'edge'
 
-// Disable Next.js body parsing so formidable can handle multipart form data
+// Disable automatic body parsing by Next.js
 /* export const config = {
   api: {
     bodyParser: false,
   },
 }; */
 
-// API handler function
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { method } = req;
+// POST request handler
+export async function POST(req: Request) {
+  // Convert the Next.js Request to the native Node.js IncomingMessage
+  const incomingReq = req as unknown as IncomingMessage;
 
-  switch (method) {
-    case "POST":
-      return await uploadNewImage(req, res);
-    case "GET":
-      return readAllImages(req, res);
-    default:
-      return res.status(404).send("Not found!");
-  }
-};
-
-// Function to handle file uploads
-const uploadNewImage = async (req: NextApiRequest, res: NextApiResponse) => {
   const form = formidable({ multiples: true });
 
-  form.parse(req, async (err, fields, files) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-
-    const imageFile = files.image as unknown as formidable.File; // Adjust type based on how the file is being sent
-    if (!imageFile) {
-      return res.status(400).json({ error: "No image file found" });
-    }
-
-    try {
-      const result = await cloudinary.uploader.upload(imageFile.filepath);
-      return res.status(200).json({ success: true, url: result.secure_url });
-    } catch (uploadError) {
-      return res.status(500).json({
-        /* error: uploadError.message */
+  const formData = await new Promise<{ fields: any; files: any }>(
+    (resolve, reject) => {
+      form.parse(incomingReq, (err, fields, files) => {
+        if (err) reject(err);
+        resolve({ fields, files });
       });
     }
-  });
-};
+  );
 
-// Function to handle fetching all images (this should be implemented based on your requirements)
-const readAllImages = async (req: NextApiRequest, res: NextApiResponse) => {
-  // Fetch and return all images logic
-  return res.status(200).json({ message: "Read all images" });
-};
+  const { files } = formData;
+  const imageFile = files.image as formidable.File; // Adjust type if necessary
 
-export default handler;
+  if (!imageFile) {
+    return NextResponse.json({ error: "No image file found" }, { status: 400 });
+  }
+
+  try {
+    const result = await cloudinary.uploader.upload(imageFile.filepath);
+    return NextResponse.json({ success: true, url: result.secure_url });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        /* error: error.message */
+      },
+      { status: 500 }
+    );
+  }
+}
+
+// GET request handler
+export async function GET() {
+  // Your logic to read all images
+  return NextResponse.json({ message: "Read all images" });
+}

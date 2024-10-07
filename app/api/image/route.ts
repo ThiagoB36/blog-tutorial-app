@@ -1,4 +1,4 @@
-"use client"
+/* "use client"
 
 import { NextApiHandler } from "next";
 import formidable from "formidable";
@@ -35,4 +35,4 @@ const uploadNewImage: NextApiHandler = (req, res) => {
 const readAllImages: NextApiHandler = (req, res) => {}
 
 
-export default handler;
+export default handler; */

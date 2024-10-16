@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useEditor, EditorContent, getMarkRange, Range } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ToolBar from "./ToolBar";
@@ -15,9 +15,7 @@ import SEOForm from "./SeoForm";
 import ActionButton from "../common/ActionButton";
 import ThumbnailSelector from "./ThumbnailSelector";
 
-interface Props {}
-
-const Editor: FC<Props> = (props): JSX.Element => {
+export default function Editor() {
   const [selectionRange, setSelectionRange] = useState<Range>();
   const [showGallery, setShowGallery] = useState(false);
 
@@ -108,7 +106,7 @@ const Editor: FC<Props> = (props): JSX.Element => {
         </div>
 
         {editor ? <EditLink editor={editor} /> : null}
-        <EditorContent editor={editor} className="min-h-[300px}" />
+        <EditorContent editor={editor} className="min-h-[300px]" />
         <div className="h-[1px] w-full bg-secondary-dark dark:secondary-light my-3" />
         <SEOForm title="This is my Title" onChange={() => {}} />
       </div>
@@ -119,6 +117,5 @@ const Editor: FC<Props> = (props): JSX.Element => {
         /> */}
     </>
   );
-};
+}
 
-export default Editor;

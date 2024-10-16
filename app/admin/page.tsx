@@ -1,17 +1,14 @@
 "use client"
 
-import { NextPage } from "next";
-import AdminLayput from "../components/layout/AdminLayout";
+import React from "react"
+import AdminLayout from "../components/layout/AdminLayout";
 
-
-interface Props {}
-
-const Admin: NextPage<Props> = () => {
-    return <div>
-        <AdminLayput>
-            <div>This is admin</div>
-        </AdminLayput>
+export default function Admin() {
+  return (
+    <div>
+      <AdminLayout>
+        <div>This is admin</div>
+      </AdminLayout>
     </div>
-};
-
-export default Admin;
+  );
+}

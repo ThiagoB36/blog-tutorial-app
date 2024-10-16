@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { FC, ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 
 interface Props {
   head: ReactNode;
   options: { label: string; onClick: () => any }[];
 }
 
-const DropdownOptions: FC<Props> = ({ head, options }): JSX.Element => {
+export default function DropdownOptions({ head, options }: Props): JSX.Element {
   const [showOptions, setShowOptions] = useState(false);
 
   return (
@@ -33,6 +33,4 @@ const DropdownOptions: FC<Props> = ({ head, options }): JSX.Element => {
       )}
     </button>
   );
-};
-
-export default DropdownOptions;
+}

@@ -1,17 +1,12 @@
-"use client"
-
+"use client";
+import React from "react";
 import Editor from "@/app/components/editor";
-import { NextPage } from "next";
 
-interface Props {}
-
-const Create: NextPage<Props> = () => {
-    return (
+export default function Create() {
+  return (
     <div className="max-w-4xl mx-auto">
-        <Editor/>
+      <Editor />
     </div>
-    )
+  );
 }
-
-export default Create;
 

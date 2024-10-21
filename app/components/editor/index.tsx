@@ -110,12 +110,11 @@ export default function Editor() {
         <div className="h-[1px] w-full bg-secondary-dark dark:secondary-light my-3" />
         <SEOForm title="This is my Title" onChange={() => {}} />
       </div>
-      {/*    <GalleryModal 
-        visible={showGallery} 
+      <GalleryModal
+        visible={showGallery}
         onClose={() => setShowGallery(false)}
         onSelect={handleImageSelection}
-        /> */}
+      />
     </>
   );
 }
-
